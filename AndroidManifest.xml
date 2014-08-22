@@ -30,6 +30,10 @@
             android:name="com.zhijianlife.core.activity.OrderListActivity"
             android:label="@string/title_activity_order_list" >
         </activity>
+        <activity
+            android:name="com.zhijianlife.core.activity.OrderInfoActivity"
+            android:label="@string/title_activity_order_info" >
+        </activity>
     </application>
 
     <!-- 授权访问网络 -->

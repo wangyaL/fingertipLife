@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -50,6 +51,20 @@ public class HomeActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
+		return true;
+	}
+	/**
+	 * 菜单事件
+	 */
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()) {
+			case R.id.home_exit:
+				startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+				finish();
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 		return true;
 	}
 	/**

@@ -291,6 +291,8 @@
 	
 	<!-- 自定义蓝 -->
 	<color name="blue_custom">#3C9BCE</color>
-	<!-- 自定义蓝2B6B6B6 -->
-	<color name="blue_custom2">#C0C0C0</color>
+	<!-- 自定义蓝-->
+	<color name="blue_custom2">#40B9FF</color>
+	<!-- 自定义灰色 -->
+	<color name="blue_custom3">#C0C0C0</color>
 </resources>

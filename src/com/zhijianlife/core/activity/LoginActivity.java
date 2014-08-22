@@ -53,12 +53,12 @@ public class LoginActivity extends Activity {
 		password = (EditText) findViewById(R.id.login_pwd);
 		loginBtn = (Button) findViewById(R.id.login_btn);
 		
-		final String url = myCount.getURL()+ActionUtil.SELLER_LOGIN;
 		loginBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				String name = loginName.getText().toString();
 				String pwd = password.getText().toString();
+				final String url = myCount.getURL()+ActionUtil.SELLER_LOGIN;
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("username", name);
 				map.put("password", pwd);
@@ -86,7 +86,6 @@ public class LoginActivity extends Activity {
 									startActivity(intent);
 									finish();
 								} else {
-									
 									Toast.makeText(thisContext, resultBean.getInfo(), Toast.LENGTH_SHORT).show();
 								}
 							} else {
@@ -115,10 +114,12 @@ public class LoginActivity extends Activity {
 		switch (item.getItemId()) {
 			case R.id.login_settings:
 				final String[] strs = new String[]{"测试服务111",
+						"本机服务108",
 						"本机服务136",
 						"服务器"};
 				final String[] values = new String[]{
 						"http://192.168.1.111:58085/icsp-phone",
+						"http://192.168.1.108:8087/icsp-phone",
 						"http://192.168.1.136:8080/icsp-phone",
 						"http://218.244.146.86:58083"
 					};

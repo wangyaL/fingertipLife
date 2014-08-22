@@ -10,20 +10,9 @@
     tools:context=".LoginActivity"
     android:id="@+id/activity_login" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="100dp"
-        android:layout_height="28dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="用户名："
-        android:textSize="24sp"
-        android:textColor="@color/white"
-        android:background="@color/blue_custom" />
-
     <EditText
         android:id="@+id/login_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dip"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
@@ -49,7 +38,7 @@
 
     <EditText
         android:id="@+id/login_pwd"
-        android:layout_width="wrap_content"
+        android:layout_width="150dip"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
@@ -59,12 +48,13 @@
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="140dp"
-        android:layout_height="30dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:text="登  录"
+        android:textSize="26sp"
         android:background="@color/mediumblue"
         android:textColor="@color/white" />
 
@@ -76,5 +66,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="39dp"
+        android:background="@color/blue_custom"
+        android:text="用户名："
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
 </RelativeLayout>

@@ -14,4 +14,9 @@ public class ActionUtil {
 	 * @param int pageSize; 每页数
 	 */
 	public static String ORDER_LIST = "/thirdpart/getOrderInfo.action";
+	/**
+	 * 新订单详情
+	 * @param int orderId; 订单ID
+	 */
+	public static String ORDER_INFO = "/thirdpart/getOrderExt.action";
 }

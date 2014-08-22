@@ -12,20 +12,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zhijianlife.R;
 import com.zhijianlife.common.MyCount;
 import com.zhijianlife.common.Paging;
 import com.zhijianlife.core.model.OrderBean;
+import com.zhijianlife.core.model.ResultBean;
+import com.zhijianlife.util.ActionUtil;
+import com.zhijianlife.util.HttpClientUtil;
 
 public class OrderListActivity extends Activity{
 	private Context thisContext = OrderListActivity.this;
@@ -71,13 +75,45 @@ public class OrderListActivity extends Activity{
 			adapter = new SimpleAdapter(thisContext, listMap, R.layout.order_list,
 					map_keys, id_keys);
 			listView.setAdapter(adapter);
+			
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 						long arg3) {
-					Intent intent = new Intent(OrderListActivity.this, HomeActivity.class);
-					intent.putExtra("bizId", listMap.get(arg2).get("bizid")+"");
-					startActivity(intent);
+					String bizid = listMap.get(arg2).get("bizid").toString();
+					String username = listMap.get(arg2).get("username").toString();
+					final String title = bizid+"["+username+"]";
+					final String url = myCount.getURL() + ActionUtil.ORDER_INFO;
+					final HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("orderId", listMap.get(arg2).get("bizid"));
+					final String params = HttpClientUtil.mapToJsonString(map, null);
+					System.out.println(url);
+					System.out.println(map);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Looper.prepare();
+							String result = HttpClientUtil.post(params, url, thisContext);
+							Log.i(TAG, result);
+							try {
+								JSONObject jsonResult = new JSONObject(result);
+								Gson gson = new Gson();
+								ResultBean resultBean = gson.fromJson(result, ResultBean.class);
+								
+								if(resultBean.isFlag()){
+									Intent intent = new Intent(OrderListActivity.this, OrderInfoActivity.class);
+									intent.putExtra("result", result)
+										.putExtra("title", title);
+									startActivity(intent);
+								} else {
+									Toast.makeText(thisContext, resultBean.getMessage(), Toast.LENGTH_SHORT).show();
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							Looper.loop();
+						}
+					}).start();
 				}
 			});
 		} catch (Exception e) {
