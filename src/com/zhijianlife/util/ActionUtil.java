@@ -3,7 +3,15 @@ package com.zhijianlife.util;
 public class ActionUtil {
 	/**
 	 * 商家登录接口
+	 * @param String username;
+	 * @param String password;
 	 */
-	public static String SELLER_LOGIN = "/user/login.action";
-
+	public static String SELLER_LOGIN = "/thirdpart/login.action";
+	/**
+	 * 分页新订单列表
+	 * @param int userId; 商家ID
+	 * @param int curPage; 页码
+	 * @param int pageSize; 每页数
+	 */
+	public static String ORDER_LIST = "/thirdpart/getOrderInfo.action";
 }

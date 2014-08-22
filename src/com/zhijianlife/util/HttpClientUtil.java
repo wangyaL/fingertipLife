@@ -1,14 +1,11 @@
 package com.zhijianlife.util;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -35,7 +32,7 @@ public class HttpClientUtil {
 	 * @param context 当前位置activity.this
 	 * @return json格式的字符串
 	 */
-	public static String post(String params, String url, Context context){
+	public static String post(final String params, final String url, final Context context){
 		String resultString = "";
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
@@ -48,11 +45,7 @@ public class HttpClientUtil {
 			} else {
 				Toast.makeText(context, "请求失败", Toast.LENGTH_SHORT).show();
 			}
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultString;

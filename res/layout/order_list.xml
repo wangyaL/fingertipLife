@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    android:background="@drawable/app_list_corner_round"
+    >
+
+    <TextView
+        android:id="@+id/order_list_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dip"
+        android:text="用户名"
+        android:textColor="@color/dimgrey" />
+    <TextView
+        android:id="@+id/order_list_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@+id/order_list_username"
+        android:gravity="center"
+        android:text="15988483265"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/order_list_time"
+        android:layout_width="60dip"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/order_list_username"
+        android:layout_below="@+id/order_list_username"
+        android:layout_marginTop="5dip"
+        android:text="下单时间"
+        android:textColor="@color/dimgrey" />
+	<TextView
+	    android:id="@+id/order_list_time_show"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/order_list_time"
+	    android:layout_alignBottom="@+id/order_list_time"
+	    android:layout_toRightOf="@+id/order_list_time"
+	    android:gravity="center"
+	    android:text="2014-05-15"
+	    android:textColor="@color/black" />
+	<TextView
+        android:id="@+id/order_list_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/order_list_time"
+        android:layout_below="@+id/order_list_time"
+        android:layout_marginTop="5dip"
+        android:layout_marginRight="45dip"
+        android:text="订单地址订单地址订单地址订单地址订单地址"
+        android:textColor="@color/dimgrey"/>
+
+	<TextView
+	    android:id="@+id/order_list_bizid"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:layout_marginRight="10dip"
+	    android:gravity="center"
+	    android:text="编号"
+	    android:textColor="@color/white"
+	    android:background="@drawable/app_corner_round" />
+
+	<TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="10dip"
+	    android:layout_marginBottom="5dip"
+	    android:text=">>"
+	    android:textSize="24sp" />
+
+</RelativeLayout> 
