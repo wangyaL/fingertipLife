@@ -19,4 +19,22 @@ public class ActionUtil {
 	 * @param int orderId; 订单ID
 	 */
 	public static String ORDER_INFO = "/thirdpart/getOrderExt.action";
+	/**
+	 * 接收订单
+	 * @param String bizIds = "140,141";
+	 * @paran String sellerMsg = "商家留言";
+	 */
+	public static String ACCEPT = "/thirdpart/acceptBatch.action";
+	/**
+	 * 拒绝订单
+	 * @param String bizIds = "140,141";
+	 * @paran String sellerMsg = "商家留言";
+	 */
+	public static String ACCEPTNOT = "/thirdpart/acceptNot.action";
+	/**
+	 * 发货
+	 * @param String bizIds = "140,141";
+	 * @paran String sellerMsg = "商家留言";
+	 */
+	public static String DELIVERY = "/thirdpart/deliveryBatch.action";
 }

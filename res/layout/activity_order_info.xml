@@ -126,7 +126,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:text="这是卖家的附加信息"
             android:textColor="@color/black" />
     </LinearLayout>
 

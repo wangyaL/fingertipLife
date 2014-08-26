@@ -50,10 +50,10 @@ public class OrderListActivity extends Activity{
 		Intent getIntent = getIntent();
 		String result = (String) getIntent.getSerializableExtra("result");
 		paging = (Paging) getIntent.getSerializableExtra("paging");
-		Log.i(TAG, paging.getPageNum()+"");
-		Log.i(TAG, paging.getPageSize()+"");
-		Log.i(TAG, paging.getAllNum()+"");
-		Log.i(TAG, paging.getAllPage()+"");
+		Log.i(TAG, paging.getPageNum()+"=当前第几页");
+		Log.i(TAG, paging.getPageSize()+"=每页数量");
+		Log.i(TAG, paging.getAllNum()+"=总共多少条");
+		Log.i(TAG, paging.getAllPage()+"=总共多少页");
 		try {
 			JSONObject jsonResult = new JSONObject(result);
 			Gson gson = new Gson();
@@ -80,15 +80,13 @@ public class OrderListActivity extends Activity{
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 						long arg3) {
-					String bizid = listMap.get(arg2).get("bizid").toString();
-					String username = listMap.get(arg2).get("username").toString();
-					final String title = bizid+"["+username+"]";
+					final String bizid = listMap.get(arg2).get("bizid").toString();
+					final String username = listMap.get(arg2).get("username").toString();
 					final String url = myCount.getURL() + ActionUtil.ORDER_INFO;
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("orderId", listMap.get(arg2).get("bizid"));
 					final String params = HttpClientUtil.mapToJsonString(map, null);
-					System.out.println(url);
-					System.out.println(map);
+
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
@@ -96,14 +94,14 @@ public class OrderListActivity extends Activity{
 							String result = HttpClientUtil.post(params, url, thisContext);
 							Log.i(TAG, result);
 							try {
-								JSONObject jsonResult = new JSONObject(result);
+//								JSONObject jsonResult = new JSONObject(result);
 								Gson gson = new Gson();
 								ResultBean resultBean = gson.fromJson(result, ResultBean.class);
 								
 								if(resultBean.isFlag()){
 									Intent intent = new Intent(OrderListActivity.this, OrderInfoActivity.class);
 									intent.putExtra("result", result)
-										.putExtra("title", title);
+										.putExtra("bizid", bizid).putExtra("buyername", username);
 									startActivity(intent);
 								} else {
 									Toast.makeText(thisContext, resultBean.getMessage(), Toast.LENGTH_SHORT).show();

@@ -12,10 +12,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 
 import com.zhijianlife.R;
 import com.zhijianlife.common.MyCount;
+import com.zhijianlife.util.ActionUtil;
+import com.zhijianlife.util.HttpClientUtil;
 
 public class OrderInfoActivity extends Activity {
 	private Context thisContext = OrderInfoActivity.this;
@@ -35,6 +38,8 @@ public class OrderInfoActivity extends Activity {
 	private EditText sMsg;
 	private Button acceptBtn,refuseBtn;
 	
+	private String sellerMsg, bizid;
+	
 	private ListView listView;
 	private SimpleAdapter adapter;
 
@@ -42,6 +47,8 @@ public class OrderInfoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_info);
+		
+		myCount = (MyCount) getApplication();
 		
 		title = (TextView) findViewById(R.id.orderinfo_title);
 		total = (TextView) findViewById(R.id.orderinfo_total);
@@ -52,7 +59,9 @@ public class OrderInfoActivity extends Activity {
 		listView = (ListView) findViewById(R.id.orderinfo_listview);
 		
 		Intent getIntent = getIntent();
-		String titleStr = getIntent.getStringExtra("title");
+		bizid = getIntent.getStringExtra("bizid");
+		String buyername = getIntent.getStringExtra("buyername");
+		String titleStr = bizid + "["+buyername+"]";
 		String result = getIntent.getStringExtra("result");
 		Double allMoney = 0.0;
 		int allNum = 0;
@@ -89,6 +98,34 @@ public class OrderInfoActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+//		sMsgDefault = sMsg.getText().toString();
+//		//添加卖家附加信息输入框，获取焦点和失去焦点事件
+//		sMsg.setOnFocusChangeListener(new OnFocusChangeListener() {
+//			@Override
+//			public void onFocusChange(View v, boolean hasFocus) {
+//				sellerMsg = sMsg.getText().toString();
+//				if(hasFocus && sMsgDefault.equals(sellerMsg)){
+//					sMsg.setText("");
+//				}else if(!hasFocus && sellerMsg == null){
+//					sMsg.setText(sMsgDefault);
+//				}
+//			}
+//		});
+		
+		acceptBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				btnOnClick(true, myCount.getURL()+ActionUtil.ACCEPT);
+			}
+		});
+		refuseBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				btnOnClick(false, myCount.getURL()+ActionUtil.ACCEPTNOT);
+			}
+		});
+		
 	}
 
 	@Override
@@ -120,5 +157,22 @@ public class OrderInfoActivity extends Activity {
 //		((MarginLayoutParams)params).setMargins(0, 0, 0, 10);
 		listView.setLayoutParams(params);
 	}
-
+	/**
+	 * 按钮事件，isAccept=true接收订单,false拒绝订单
+	 * @param isAccept
+	 */
+	private void btnOnClick(boolean isAccept, final String url){
+		sellerMsg = sMsg.getText().toString();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("bizIds", bizid);
+				map.put("sellerMsg", sellerMsg);
+				String params = HttpClientUtil.mapToJsonString(map, null);
+				String result = HttpClientUtil.post(params, url, thisContext);
+				Log.i(TAG, result);
+			}
+		}).start();
+	}
 }

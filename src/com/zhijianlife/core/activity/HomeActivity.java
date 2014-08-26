@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.zhijianlife.core.model.ResultBean;
 import com.zhijianlife.core.model.UserSeller;
 import com.zhijianlife.util.ActionUtil;
 import com.zhijianlife.util.HttpClientUtil;
+import com.zhijianlife.util.KeyValueUtil;
 
 public class HomeActivity extends Activity {
 	private Context thisContext = HomeActivity.this;
@@ -32,6 +34,7 @@ public class HomeActivity extends Activity {
 	private MyCount myCount;
 	private RelativeLayout neworder,orderlist,goodslist,infomation,complaint;
 	private UserSeller seller;
+	private SharedPreferences sp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class HomeActivity extends Activity {
 //		Intent getIntent = getIntent();
 //		seller = (UserSeller) getIntent.getSerializableExtra("seller");
 		seller = myCount.getSeller();
+		
+		sp = this.getSharedPreferences(KeyValueUtil.FILE_NAME, Context.MODE_WORLD_READABLE);
 		
 		neworder = (RelativeLayout) findViewById(R.id.home_block_neworder);
 		neworder.setOnClickListener(listener_newOrder);
@@ -59,6 +64,7 @@ public class HomeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch (item.getItemId()) {
 			case R.id.home_exit:
+				sp.edit().putBoolean(KeyValueUtil.AUTO_ISCHECK, false).commit();
 				startActivity(new Intent(HomeActivity.this, LoginActivity.class));
 				finish();
 				break;
