@@ -69,6 +69,7 @@ public class LoginActivity extends Activity {
 			loginName.setText(sp.getString(KeyValueUtil.USERNAME, ""));
 			password.setText(sp.getString(KeyValueUtil.PASSWORD, ""));
 			myCount.setURL(sp.getString(KeyValueUtil.URL, ""));
+
 			//判断自动登录多选框状态
 			if(sp.getBoolean(KeyValueUtil.AUTO_ISCHECK, false)){
 				//设置默认是自动登录状态
@@ -148,7 +149,7 @@ public class LoginActivity extends Activity {
 		String name = loginName.getText().toString();
 		String pwd = password.getText().toString();
 		String url = myCount.getURL()+ActionUtil.SELLER_LOGIN;
-		System.out.println(url);
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("username", name);
 		map.put("password", pwd);
@@ -189,7 +190,7 @@ public class LoginActivity extends Activity {
 		map.put("password", pwd);
 		String params = HttpClientUtil.mapToJsonString(map, null);
 		
-		String result = HttpClientUtil.post(params, url+ActionUtil.SELLER_LOGIN, thisContext);
+		String result = HttpClientUtil.post(params, url, thisContext);
 		Log.i(TAG, result);
 		
 		try {
@@ -197,11 +198,17 @@ public class LoginActivity extends Activity {
 			Gson gson = new Gson();
 			String detail = jsonResult.getString("detail");
 			UserSeller seller = gson.fromJson(detail, UserSeller.class);
-			System.out.println(url);
 			System.out.println(seller.getUserName());
 			myCount.setSeller(seller);
-			myCount.setURL(url);
 			
+			//登录成功和记住密码框为选中状态才保存用户信息
+			if(rem_pw.isChecked()){
+				//记住用户名、密码
+				Editor editor = sp.edit();
+				editor.putString(KeyValueUtil.USERNAME, name);
+				editor.putString(KeyValueUtil.PASSWORD, pwd);
+				editor.commit();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
