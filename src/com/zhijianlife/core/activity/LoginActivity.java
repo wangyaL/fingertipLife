@@ -80,10 +80,6 @@ public class LoginActivity extends Activity {
 						userLogin(sp.getString(KeyValueUtil.USERNAME, ""),sp.getString(KeyValueUtil.PASSWORD, ""),sp.getString(KeyValueUtil.URL, ""));
 					}
 				}).start();
-				//跳转界面
-				Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-				LoginActivity.this.startActivity(intent);
-				finish();
 			}
 		}
 		
@@ -163,7 +159,6 @@ public class LoginActivity extends Activity {
 			Gson gson = new Gson();
 			String detail = jsonResult.getString("detail");
 			UserSeller seller = gson.fromJson(detail, UserSeller.class);
-			System.out.println(seller.getUserName());
 			myCount.setSeller(seller);
 			
 			//登录成功和记住密码框为选中状态才保存用户信息
@@ -190,7 +185,7 @@ public class LoginActivity extends Activity {
 		map.put("password", pwd);
 		String params = HttpClientUtil.mapToJsonString(map, null);
 		
-		String result = HttpClientUtil.post(params, url, thisContext);
+		String result = HttpClientUtil.post(params, url+ActionUtil.SELLER_LOGIN, thisContext);
 		Log.i(TAG, result);
 		
 		try {
@@ -198,17 +193,11 @@ public class LoginActivity extends Activity {
 			Gson gson = new Gson();
 			String detail = jsonResult.getString("detail");
 			UserSeller seller = gson.fromJson(detail, UserSeller.class);
-			System.out.println(seller.getUserName());
 			myCount.setSeller(seller);
-			
-			//登录成功和记住密码框为选中状态才保存用户信息
-			if(rem_pw.isChecked()){
-				//记住用户名、密码
-				Editor editor = sp.edit();
-				editor.putString(KeyValueUtil.USERNAME, name);
-				editor.putString(KeyValueUtil.PASSWORD, pwd);
-				editor.commit();
-			}
+			//跳转界面
+			Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+			LoginActivity.this.startActivity(intent);
+			finish();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
