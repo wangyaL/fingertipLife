@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    android:background="@drawable/app_list_corner_round"
+    android:padding="5dip"
+    >
+	
+	<TextView
+	    android:id="@+id/order_info_goodsname"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginLeft="5dip"
+	    android:maxWidth="250dip"
+	    android:text="商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名"
+	    android:textColor="@color/dimgrey" />
+
+	<TextView
+	    android:id="@+id/order_info_price"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/order_info_goodsname"
+	    android:layout_toLeftOf="@+id/order_info_num"
+	    android:layout_marginRight="5dip"
+	    android:text="￥120.0"
+	    android:textColor="@color/black" />
+
+	<TextView
+	    android:id="@+id/order_info_num"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/order_info_price"
+	    android:layout_alignBottom="@+id/order_info_price"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="5dip"
+	    android:text="×1"
+	    android:textColor="@color/white" />
+
+</RelativeLayout> 

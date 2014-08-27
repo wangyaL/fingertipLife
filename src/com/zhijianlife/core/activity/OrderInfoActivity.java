@@ -24,8 +24,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zhijianlife.R;
 import com.zhijianlife.common.MyCount;
+import com.zhijianlife.core.model.ResultBean;
 import com.zhijianlife.util.ActionUtil;
 import com.zhijianlife.util.HttpClientUtil;
 
@@ -59,6 +61,13 @@ public class OrderInfoActivity extends Activity {
 		listView = (ListView) findViewById(R.id.orderinfo_listview);
 		
 		Intent getIntent = getIntent();
+		int accept = getIntent.getIntExtra("accept", 0);
+		Log.i(TAG, accept+"=当前订单状态");
+		if(1 == accept){
+			acceptBtn.setText("发货");
+		}else{
+			acceptBtn.setText("接收");
+		}
 		bizid = getIntent.getStringExtra("bizid");
 		String buyername = getIntent.getStringExtra("buyername");
 		String titleStr = bizid + "["+buyername+"]";
@@ -76,17 +85,15 @@ public class OrderInfoActivity extends Activity {
 				allMoney += totalMoney;
 				allNum += num;
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("bizid", object.get("goodsId"));
-				map.put("username", object.get("goodsName"));
-				map.put("phone", totalMoney);
-				map.put("time", num);
-				map.put("address", object.get("sellPrice"));
+				map.put("goodsName", object.get("goodsName"));
+				map.put("num", "×"+num);
+				map.put("sellPrice", "￥"+object.get("sellPrice"));
 				listMap.add(map);
 			}
-			String[] map_keys = new String[]{"bizid", "username", "phone", "time", "address"};
-			int[] id_keys = new int[]{R.id.order_list_bizid, R.id.order_list_username, R.id.order_list_phone,
-					R.id.order_list_time_show, R.id.order_list_address};
-			adapter = new SimpleAdapter(thisContext, listMap, R.layout.order_list,
+			String[] map_keys = new String[]{"goodsName", "num", "sellPrice"};
+			int[] id_keys = new int[]{R.id.order_info_goodsname, R.id.order_info_num, R.id.order_info_price};
+			
+			adapter = new SimpleAdapter(thisContext, listMap, R.layout.order_info,
 					map_keys, id_keys);
 			listView.setAdapter(adapter);
 			
@@ -116,13 +123,19 @@ public class OrderInfoActivity extends Activity {
 		acceptBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				btnOnClick(true, myCount.getURL()+ActionUtil.ACCEPT);
+				String btnText = acceptBtn.getText().toString();
+				Log.d(TAG, btnText);
+				if(btnText.equals("接收")){
+					btnOnClick(myCount.getURL()+ActionUtil.ACCEPT);
+				}else{
+					btnOnClick(myCount.getURL()+ActionUtil.DELIVERY);
+				}
 			}
 		});
 		refuseBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				btnOnClick(false, myCount.getURL()+ActionUtil.ACCEPTNOT);
+				btnOnClick(myCount.getURL()+ActionUtil.ACCEPTNOT);
 			}
 		});
 		
@@ -147,7 +160,7 @@ public class OrderInfoActivity extends Activity {
 		for (int i=0; i<listAdapter.getCount(); i++){
 			View listItem = listAdapter.getView(i, null, listView);
 			listItem.measure(0, 0);
-			totalHeight += listItem.getMeasuredHeight()+20;
+			totalHeight += listItem.getMeasuredHeight();
 //			System.out.println("====listItem.getMeasuredHeight()==>>"+listItem.getMeasuredHeight());
 //			System.out.println("====listItem.getMeasuredHeight()+20==>>"+listItem.getMeasuredHeight()+20);
 		}
@@ -158,10 +171,10 @@ public class OrderInfoActivity extends Activity {
 		listView.setLayoutParams(params);
 	}
 	/**
-	 * 按钮事件，isAccept=true接收订单,false拒绝订单
-	 * @param isAccept
+	 * 按钮事件
+	 * @param url 请求路径
 	 */
-	private void btnOnClick(boolean isAccept, final String url){
+	private void btnOnClick(final String url){
 		sellerMsg = sMsg.getText().toString();
 		new Thread(new Runnable() {
 			@Override
@@ -172,6 +185,15 @@ public class OrderInfoActivity extends Activity {
 				String params = HttpClientUtil.mapToJsonString(map, null);
 				String result = HttpClientUtil.post(params, url, thisContext);
 				Log.i(TAG, result);
+				try {
+					Gson gson = new Gson();
+					ResultBean bean = gson.fromJson(result, ResultBean.class);
+					if(bean.isSuccess()){
+						OrderInfoActivity.this.finish();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}

@@ -67,6 +67,7 @@ public class OrderListActivity extends Activity{
 				map.put("phone", orderBean.getPhone());
 				map.put("time", orderBean.getBizTime());
 				map.put("address", orderBean.getAddress());
+				map.put("accept", orderBean.getAccept());
 				listMap.add(map);
 			}
 			String[] map_keys = new String[]{"bizid", "username", "phone", "time", "address"};
@@ -82,6 +83,7 @@ public class OrderListActivity extends Activity{
 						long arg3) {
 					final String bizid = listMap.get(arg2).get("bizid").toString();
 					final String username = listMap.get(arg2).get("username").toString();
+					final int accept = (Integer) listMap.get(arg2).get("accept");
 					final String url = myCount.getURL() + ActionUtil.ORDER_INFO;
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("orderId", listMap.get(arg2).get("bizid"));
@@ -101,7 +103,8 @@ public class OrderListActivity extends Activity{
 								if(resultBean.isFlag()){
 									Intent intent = new Intent(OrderListActivity.this, OrderInfoActivity.class);
 									intent.putExtra("result", result)
-										.putExtra("bizid", bizid).putExtra("buyername", username);
+										.putExtra("bizid", bizid).putExtra("buyername", username)
+										.putExtra("accept", accept);
 									startActivity(intent);
 								} else {
 									Toast.makeText(thisContext, resultBean.getMessage(), Toast.LENGTH_SHORT).show();

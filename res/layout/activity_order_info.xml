@@ -49,6 +49,10 @@
             android:id="@+id/orderinfo_listview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:cacheColorHint="@color/white"
+            android:divider="#00000000"
+            android:fadingEdge="none"
+            android:focusable="false"
             >
 
         </ListView>
