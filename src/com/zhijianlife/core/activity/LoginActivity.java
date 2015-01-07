@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -48,6 +49,25 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		Intent intent = getIntent();  
+        String scheme = intent.getScheme();  
+        Uri uri = intent.getData();  
+        System.out.println("scheme:"+scheme);
+        if (uri != null) {  
+            String host = uri.getHost();  
+            String dataString = intent.getDataString();  
+            String id = uri.getQueryParameter("id");  
+            String path = uri.getPath();  
+            String path1 = uri.getEncodedPath();  
+            String queryString = uri.getQuery();  
+            System.out.println("host:"+host);  
+            System.out.println("dataString:"+dataString);  
+            System.out.println("id:"+id);  
+            System.out.println("path:"+path);  
+            System.out.println("path1:"+path1);  
+            System.out.println("queryString:"+queryString);  
+        }
+        
 		//设置背景色
 //		layout = (RelativeLayout) findViewById(R.id.activity_login);
 //		int mycolor = getResources().getColor(R.color.floralwhite);
@@ -105,12 +125,12 @@ public class LoginActivity extends Activity {
 				final String[] strs = new String[]{"测试服务111",
 						"本机服务108",
 						"本机服务136",
-						"服务器"};
+						"测试服务器bup2"};
 				final String[] values = new String[]{
 						"http://192.168.1.111:58085/icsp-phone",
 						"http://192.168.1.108:8087/icsp-phone",
 						"http://192.168.1.136:8080/icsp-phone",
-						"http://218.244.146.86:58083"
+						"http://218.244.146.86:58083/icsp-phone-bup2"
 					};
 				int index = 0;
 				for(int i=0; i<strs.length; i++){
